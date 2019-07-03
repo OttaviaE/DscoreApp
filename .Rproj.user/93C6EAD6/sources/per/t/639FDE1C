@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1562145637178.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2502568497",
+    "id" : "639FDE1C",
+    "lastKnownWriteTime" : 1562145665,
+    "last_content_update" : 1562145665085,
+    "path" : "~/DscoreApp/ui.R",
+    "project_path" : "ui.R",
+    "properties" : {
+        "cursorPosition" : "937,1",
+        "scrollLine" : "911",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
