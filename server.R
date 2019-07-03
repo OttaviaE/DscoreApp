@@ -19,7 +19,7 @@ server <- function(input, output, session) {
     if (input$checkbox == T){
       datasetInput <- reactive({
         # define the wd for the example dataset AND HAS TO BE CHANGED ACCORDINGLY
-        dataset <- read.csv("~/DscoreApp/raceAPP.csv")
+        dataset <- read.csv("~/GitHub/DscoreApp/raceAPP.csv")
       })
     } else {
       # if the toy dataset has not been found --> import and store users' dataset
