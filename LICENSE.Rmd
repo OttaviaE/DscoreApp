@@ -1,5 +1,5 @@
 ---
-title: "LICENSE"
+title: "MIT License"
 author: "Ottavia M. Epifania"
 output: html_document
 ---

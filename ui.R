@@ -809,6 +809,14 @@ ui <- fluidPage(
             id = "details_final",
             HTML(
               "
+              <blockquote>
+              <p>
+              Please refer to the <a href=https://implicit.harvard.edu/implicit/demo/copyright.html>Project Implicit Website</a> for the 
+              interpretation guidelines of the <em>D-score</em>s effect size
+              reported in the graphs.
+              </p>
+              </blockquote>
+              
 
                                  <blockquote>
                                  <p>

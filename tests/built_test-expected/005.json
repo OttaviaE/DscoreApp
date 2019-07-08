@@ -1,0 +1,152 @@
+{
+  "input": {
+    "accuracy_del": "1",
+    "checkbox": true,
+    "datafile": null,
+    "graph": "1",
+    "load": 1,
+    "mapA_practice": "practiceWhitegood",
+    "mapA_practice-selectized": "",
+    "mapA_test": "testWhitegood",
+    "mapA_test-selectized": "",
+    "mapB_practice": "practiceWhitebad",
+    "mapB_practice-selectized": "",
+    "mapB_test": "testWhitebad",
+    "mapB_test-selectized": "",
+    "num.bin": 30,
+    "num.bin1": 30,
+    "perc_error": 15,
+    "point_opts": "1",
+    "point_opts-selectized": "",
+    "reset": 0,
+    "sbjFast_del": "1",
+    "sel_d": "1",
+    "sel_d-selectized": "",
+    "shinyjs-resettable-Dapp": {
+      "checkbox": {
+        "type": "Checkbox",
+        "value": "false"
+      },
+      "sel_d": {
+        "type": "Select",
+        "value": "\"0\""
+      },
+      "accuracy_del": {
+        "type": "RadioButtons",
+        "value": "1"
+      },
+      "perc_error": {
+        "type": "Numeric",
+        "value": "25"
+      },
+      "sbjFast_del": {
+        "type": "RadioButtons",
+        "value": "1"
+      },
+      "graph": {
+        "type": "RadioButtons",
+        "value": "1"
+      },
+      "point_opts": {
+        "type": "Select",
+        "value": "\"1\""
+      },
+      "num.bin": {
+        "type": "Slider",
+        "value": "30"
+      },
+      "num.bin1": {
+        "type": "Slider",
+        "value": "30"
+      }
+    },
+    "update": 5
+  },
+  "output": {
+    "data_ready": {
+      "html": "<span class=\"help-block\">\n  <h3>Data are ready!<\/h3>\n<\/span>",
+      "deps": [
+
+      ]
+    },
+    "label_mapA_practice": {
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" for=\"mapA_practice\">\n    <h5>e.g. practiceWhiteGood<\/h5>\n  <\/label>\n  <div>\n    <select id=\"mapA_practice\"><option value=\"practiceWhitegood\" selected>practiceWhitegood<\/option>\n<option value=\"testWhitegood\">testWhitegood<\/option>\n<option value=\"practiceWhitebad\">practiceWhitebad<\/option>\n<option value=\"testWhitebad\">testWhitebad<\/option><\/select>\n    <script type=\"application/json\" data-for=\"mapA_practice\" data-nonempty=\"\">{}<\/script>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.11.2",
+          "src": {
+            "href": "shared/selectize"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "css/selectize.bootstrap3.css",
+          "head": "<!--[if lt IE 9]>\n<script src=\"shared/selectize/js/es5-shim.min.js\"><\/script>\n<![endif]-->\n<script src=\"shared/selectize/js/selectize.min.js\"><\/script>",
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
+      ]
+    },
+    "label_mapA_test": {
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" for=\"mapA_test\">\n    <h5>e.g. testWhiteGood<\/h5>\n  <\/label>\n  <div>\n    <select id=\"mapA_test\"><option value=\"practiceWhitegood\">practiceWhitegood<\/option>\n<option value=\"testWhitegood\" selected>testWhitegood<\/option>\n<option value=\"practiceWhitebad\">practiceWhitebad<\/option>\n<option value=\"testWhitebad\">testWhitebad<\/option><\/select>\n    <script type=\"application/json\" data-for=\"mapA_test\" data-nonempty=\"\">{}<\/script>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.11.2",
+          "src": {
+            "href": "shared/selectize"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "css/selectize.bootstrap3.css",
+          "head": "<!--[if lt IE 9]>\n<script src=\"shared/selectize/js/es5-shim.min.js\"><\/script>\n<![endif]-->\n<script src=\"shared/selectize/js/selectize.min.js\"><\/script>",
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
+      ]
+    },
+    "label_mapB_practice": {
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" for=\"mapB_practice\">\n    <h5>e.g. practiceWhiteBad<\/h5>\n  <\/label>\n  <div>\n    <select id=\"mapB_practice\"><option value=\"practiceWhitegood\">practiceWhitegood<\/option>\n<option value=\"testWhitegood\">testWhitegood<\/option>\n<option value=\"practiceWhitebad\" selected>practiceWhitebad<\/option>\n<option value=\"testWhitebad\">testWhitebad<\/option><\/select>\n    <script type=\"application/json\" data-for=\"mapB_practice\" data-nonempty=\"\">{}<\/script>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.11.2",
+          "src": {
+            "href": "shared/selectize"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "css/selectize.bootstrap3.css",
+          "head": "<!--[if lt IE 9]>\n<script src=\"shared/selectize/js/es5-shim.min.js\"><\/script>\n<![endif]-->\n<script src=\"shared/selectize/js/selectize.min.js\"><\/script>",
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
+      ]
+    },
+    "label_mapB_test": {
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" for=\"mapB_test\">\n    <h5>e.g. testWhiteBad<\/h5>\n  <\/label>\n  <div>\n    <select id=\"mapB_test\"><option value=\"practiceWhitegood\">practiceWhitegood<\/option>\n<option value=\"testWhitegood\">testWhitegood<\/option>\n<option value=\"practiceWhitebad\">practiceWhitebad<\/option>\n<option value=\"testWhitebad\" selected>testWhitebad<\/option><\/select>\n    <script type=\"application/json\" data-for=\"mapB_test\" data-nonempty=\"\">{}<\/script>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.11.2",
+          "src": {
+            "href": "shared/selectize"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "css/selectize.bootstrap3.css",
+          "head": "<!--[if lt IE 9]>\n<script src=\"shared/selectize/js/es5-shim.min.js\"><\/script>\n<![endif]-->\n<script src=\"shared/selectize/js/selectize.min.js\"><\/script>",
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
+      ]
+    }
+  },
+  "export": {
+
+  }
+}
