@@ -372,7 +372,7 @@ ui <- fluidPage(
                                  <p>
                                  This app will help you in computing different
                                  <em>D-score</em>s for the Implicit Association
-                                 Test (IAT), according to Greenwald, Nosek and
+                                 Test (IAT; Greenwald et al., 1998), according to Greenwald, Nosek and
                                  Banaji (2003). Beyond the computation of the
                                  <em>D-score</em>s <em>per se</em>, the
                                  DShinyApp app generates different graphic
@@ -388,7 +388,7 @@ ui <- fluidPage(
                                  a high proportion of incorrect responses
                                  (Nosek, Banaji &#38; Greenwald, 2002), or
                                  participants with a high percentage of fast
-                                 responses (Greenwald et al. 2003), or both.
+                                 responses (Greenwald et al., 2003), or both.
                                  At the end of your computation, you can download
                                  a file containing all of your participants'
                                  <em>D-score</em>s for further analyses.
@@ -669,7 +669,7 @@ ui <- fluidPage(
                                  <li> <b> Practice-Test reliability&#58; </b>
                                  Displays the IAT reliability computed as the
                                  correlation between the <em>D</em>s in the
-                                 practice and test blocks. </li>
+                                 practice and test blocks (Gawronski et al., 2017). </li>
                                  </ul>
                                  </blockquote>"
             )
@@ -825,11 +825,24 @@ ui <- fluidPage(
                                  </p>
                                  <h4><b>References</b></h4>
                                  <p>
+                                 Gawronski, B., Morrison, M., Phills, C. E., & Galdi, S. (2017). Temporal stability of 
+                                 implicit and explicit measures:
+                                 A longitudinal analysis. <em> Personality and Social Psychology Bulletin, 43</em>(3), 300-312.
+                                 doi: 10.1177/0146167216684131
+                                 </p>
+                                 <p>
+                                 Greenwald, A. G., McGhee, D. E., & Schwartz, J. L. K. (1998). Measuring Individual Differences in 
+                                 Implicit Cognition: The Implicit Association Test. <em>Journal of Personality and Soclal Psychology, 
+                                 74</em>(6), 
+                                 1464–1480. doi: 10.1037/0022-3514.74.6.1464
+                                 </p>
+                                 <p>
                                  Greenwald, A. G., Nosek, B. A., &#38; Banaji,
                                  M. R. (2003). Understanding and using the
                                  implicit association test&#58; I. An improved
                                  scoring algorithm. <em>Journal of personality
                                  and social psychology, 85</em>(2), 197-216.
+                                 doi: 10.1037/0022-3514.85.2.197
                                  </p>
                                  <p>
                                  Nosek, B. A., Banaji, M. R., &#38; Greenwald,
@@ -837,6 +850,7 @@ ui <- fluidPage(
                                  attitudes and beliefs from a demonstration web
                                  site.<em>Group Dynamics&#58; Theory, Research,
                                  and Practice, 6</em>(1), 101-115.
+                                 doi: 10.1037/1089-2699.6.1.101
                                  </p>
                                  <h3> Contacts </h3>
                                  <p>
