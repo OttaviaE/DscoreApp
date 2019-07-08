@@ -841,7 +841,7 @@ ui <- fluidPage(
                                  </p>
                                  <h3> License </h3>
                                  <p>
-                                 This program is free software and you can redistribute it and or modify it under the terms of the  <a href=https://www.gnu.org/licenses/gpl-3.0.en.html>GNU GPL 3</a> as published by the Free Software Foundation.
+                                 This app is a free software, and you can redistribute it and or modify it under the terms of the  <a href=https://opensource.org/licenses/MIT>MIT license</a>.
                                  <p>
                                  </blockquote>"
             )
