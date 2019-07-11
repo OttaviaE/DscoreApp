@@ -14,39 +14,56 @@ ui <- fluidPage(
                                   @import url('//fonts.googleapis.com/css?family=Lobster|Cabin:400,700');
 
                                   h1 {
+                                  font-family: \"Georgia\", Times, serif;
                                   font-weight: 500;
                                   line-height: 1.1;
                                   color: #93baff;
                                   }
                                   h3 {
-                                  font-style: italic;
+                                  font-family: \"Georgia\", Times, serif;
+                                  font-variant: small-caps;
                                   color: #5e67e5;
                                   text-align: center;
                                   }
                                   h4 {
+                                  font-family: \"Georgia\", Times, serif;
                                   font-style: italic;
                                   color: 	#5e67e5;
                                   font-weight: 400;
                                   }
                                   h5 {
+                                  font-family: \"Gerogia\", Times, serif;
                                   font-style: italic;
                                   color: #7a6db1;
                                   font-weight: 450;
                                   }
+                                  h6 {
+                                  font-family: \"Georgia\", Times, serif;
+                                  color: #7a6db1;
+                                  font-weight: 470;
+                                  }
                                   em {
                                   font-weight:italic;
                                   }
+                                  p.normal {
+                                  font-family: \"Georgia\", Times, serif;
+                                  font-variant: normal;
+                                  font-size: 10pt;
+                                  }
                                   table, th, td {
+                                  font-family: \"Georgia\", Times, serif;
                                   border: 1px solid black;
                                   border-collapse: collapse;
                                   padding: 8px;
                                   }
                                   blockquote{
+                                  font-family: \"Georgia\", Times, serif;
                                   font-size: 12pt;
                                   }
-
                                   .btn {
                                   background-color:#b491f6;
+                                  font-family: \"Georgia\", Times, serif;
+                                  font-variant: small-caps;
 
                                   }
                                   .shiny-notification{
@@ -56,7 +73,11 @@ ui <- fluidPage(
                                     right: 33%;
                                     background-color:#c7ccff;
                                     color: #7a6db1;
-}
+                                  }
+                                 body {
+                                  background-color: #fdfaff;
+                                 }
+                                 
                                   "
     )
   )),
@@ -67,29 +88,30 @@ ui <- fluidPage(
     sidebarLayout(
       # Sidebar panel for inputs 
       sidebarPanel(
+        style = "background-color: 		#e1e9f9;",
         # Pop-up menu for the toy dataset checkbox  
-        a(id = "example_det", "Example data", href = "#"),
+        a(id = "example_det", h4("Example data",  style = "font-style: normal; font-size: 11pt;"), href = "#"),
         shinyjs::hidden(div(
           id = "details_example",
           helpText(
-            "Check this box to use an example Race IAT dataset for computing",
-            "the D-score."
+            h6("Check this box to use an example Race IAT dataset for computing",
+            "the D-score.")
           )
         )),
         # Checkbox for the toy dataset (default = F)
-        checkboxInput("checkbox", "Race IAT dataset",
+        checkboxInput("checkbox", HTML("<p class =\"normal\">Race IAT dataset</p>"),
                       value = FALSE),
         # Conditional Panel for importing users' dataframe 
         conditionalPanel(
           condition = "input.checkbox == false",
           # data import pop-up menu
-          a(id = "imp_det", "Choose CSV file", href = "#"),
+          a(id = "imp_det", h4("Choose CSV file", style = "font-style: normal; font-size: 11pt;"), href = "#"),
           shinyjs::hidden(div(
             id = "details_import",
             helpText(
-              "Import data. CSV separator must be comma (,).",
+              h6("Import data. CSV separator must be comma (,).",
               "Please use the template from READ ME FIRST",
-              "compiled according to instructions."
+              "compiled according to instructions.")
             )
           )),
           # Users' data impot button
@@ -104,10 +126,10 @@ ui <- fluidPage(
         fluidRow(
           column(
             5,
-            a(id = "practice_det_mapA", "MappingA Practice block label", href = "#"),
+            a(id = "practice_det_mapA", h4("MappingA Practice block label", style = "font-style: normal; font-size: 11pt;"), href = "#"),
             shinyjs::hidden(div(
               id = "details_practice_mapA",
-              helpText("How did you label the MappingA pratice block?")
+              helpText(h6("How did you label the MappingA pratice block?"))
             )),
             # actual labels for the block, taken from the dataset
             uiOutput("label_mapA_practice")
@@ -115,10 +137,10 @@ ui <- fluidPage(
           ),
           column(
             5,
-            a(id = "test_det_mapA", "MappingA Test block label", href = "#"),
+            a(id = "test_det_mapA", h4("MappingA Test block label", style = "font-style: normal; font-size: 11pt;"), href = "#"),
             shinyjs::hidden(div(
               id = "details_test_mapA",
-              helpText("How did you label the MappingA test block?")
+              helpText(h6("How did you label the MappingA test block?"))
             )),
             uiOutput("label_mapA_test")
           )
@@ -127,20 +149,20 @@ ui <- fluidPage(
         fluidRow(
           column(
             5,
-            a(id = "practice_det_mapB", "MappingB Practice block label", href = "#"),
+            a(id = "practice_det_mapB", h4("MappingB Practice block label", style = "font-style: normal; font-size: 11pt;"), href = "#"),
             shinyjs::hidden(div(
               id = "details_practice_mapB",
-              helpText("How did you label the MappingB pratice block?")
+              helpText(h6("How did you label the MappingB pratice block?"))
             )),
             uiOutput("label_mapB_practice")
             
           ),
           column(
             5,
-            a(id = "test_det_mapB", "MappingB Test block label", href = "#"),
+            a(id = "test_det_mapB", h4("MappingB Test block label", style = "font-style: normal; font-size: 11pt;"), href = "#"),
             shinyjs::hidden(div(
               id = "details_test_mapB",
-              helpText("How did you label the MappingB pratice block?")
+              helpText(h6("How did you label the MappingB pratice block?"))
             )),
             uiOutput("label_mapB_test")
           )
@@ -153,12 +175,12 @@ ui <- fluidPage(
           # Pop-up menu for the uploading button and the Data ready message
           column(
             4,
-            a(id = "info_prepare", "Show info", href = "#"),
+            a(id = "info_prepare", h4("Show info",style = "font-style: normal; font-size: 11pt;"), href = "#"),
             shinyjs::hidden(div(
               id = "details_prepare",
               helpText(
-                "Upload and prepare data for calculating the D score \n
-                  When it's finished a message will appear next the button"
+                h6("Upload and prepare data for calculating the D score \n
+                  When it's finished a message will appear next the button")
               )
             ))
             
@@ -170,10 +192,10 @@ ui <- fluidPage(
         ),
         
         # D-score selection pop-up menu 
-        a(id = "select_D", "Show info", href = "#"),
+        a(id = "select_D", h4("Show info", style = "font-style: normal; font-size: 11pt;"), href = "#"),
         shinyjs::hidden(div(
           id = "details_D",
-          helpText("Which D would you like to compute?")
+          helpText(h6("Which D-score would you like to compute?"))
         )),
         # D-score selection
         selectInput(
@@ -197,15 +219,11 @@ ui <- fluidPage(
         fluidRow(
           column(
             4,
-            a(id = "accuracy_det", "Accuracy Cleaning", href = "#"),
+            a(id = "accuracy_det", h4("Accuracy deletion", style = "font-style: normal; font-size: 11pt;"), href = "#"),
             shinyjs::hidden(div(
               id = "details_accuracy",
               helpText(
-                "Apply cleaning strategy based on accuracy deletion?",
-                "Practice + Test blocks: the % of incorrect response,",
-                "is computed on the trials of both blocks",
-                "Only Test blocks: the % of incorrect responses",
-                "is computed only on Test block trials"
+               h6("Apply cleaning strategy based on accuracy deletion?")
               )
             )),
             # Accuracy deletion selection (default = 1 = No deletion selected)
@@ -222,10 +240,10 @@ ui <- fluidPage(
             3,
             conditionalPanel(
               condition = "input.accuracy_del == '2'",
-              a(id = "percentage_det", "Error Percentage", href = "#"),
+              a(id = "percentage_det", h4("Error Percentage", style = "font-style: normal; font-size: 11pt;"), href = "#"),
               shinyjs::hidden(div(
                 id = "details_perc",
-                helpText("Choose the error percentage you are willing to accept")
+                helpText(h6("Choose the error percentage you are willing to accept"))
               )),
               # error percentage selection
               numericInput(
@@ -240,13 +258,11 @@ ui <- fluidPage(
           # Fast participants deletion pop-up menu
           column(
             3,
-            a(id = "sbjFast_det", "Fast participants cleaning", href = "#"),
+            a(id = "sbjFast_det", h4("Fast participants deletion", style = "font-style: normal; font-size: 11pt;"), href = "#"),
             shinyjs::hidden(div(
               id = "details_sbjFast",
               helpText(
-                "Eliminate participants for whom more than 10% of
-                                                trials have latency less
-                                                than 300 ms"
+                h6("Eliminate participants with more than 10% of responses faster than 300 ms?")
               )
             )),
             # Fast participants deletion selection (default = 1 = No deletion selected)
@@ -265,10 +281,10 @@ ui <- fluidPage(
           fluidRow(
             column(
               4,
-              a(id = "graph_det", "Graphic display", href = "#"),
+              a(id = "graph_det", h4("Graphic display", style = "font-style: normal; font-size: 11pt;"), href = "#"),
               shinyjs::hidden(div(
                 id = "details_graph",
-                helpText("How would you display your D-scores?")
+                helpText(h6("How would you display your D-scores?"))
               )),
               # Graphic selection (default = Points graph)
               radioButtons(
@@ -289,10 +305,10 @@ ui <- fluidPage(
               conditionalPanel(
                 condition = "input.graph == '1'",
                 # Participants' display order in the Point graph pop-up menu
-                a(id = "point_det", "Point Graph", href = "#"),
+                a(id = "point_det", h4("Point Graph", style = "font-style: normal; font-size: 11pt;"), href = "#"),
                 shinyjs::hidden(div(
                   id = "details_point",
-                  helpText("How would you like to order the Participants?")
+                  helpText(h6("How would you like to order the Participants?"))
                 )),
                 # Participants' display order in the Point graph selection (default = None)
                 selectInput(
@@ -312,10 +328,10 @@ ui <- fluidPage(
           conditionalPanel(
             condition = "input.graph == '2'",
             # Number of bins the histogram graph pop-up menu
-            a(id = "hist_det", "Histogram number of bins", href = "#"),
+            a(id = "hist_det", h4("Histogram number of bins", style = "font-style: normal; font-size: 11pt;"), href = "#"),
             shinyjs::hidden(div(
               id = "details_histogram",
-              helpText("Select the number of bins you want")
+              helpText(h6("Select the number of bins you want"))
             )),
             # Number of bins the histogram graph selection (default = 30)
             sliderInput(
@@ -331,7 +347,7 @@ ui <- fluidPage(
           conditionalPanel(
             condition = "input.graph == '4'",
             # Number of bins the histogram + density graph pop-up menu
-            a(id = "hist_det1", "Histogram number of bins", href = "#"),
+            a(id = "hist_det1", h4("Histogram number of bins", style = "font-style: normal; font-size: 11pt;"), href = "#"),
             shinyjs::hidden(div(
               id = "details_histogram1",
               helpText("Select the number of bins you want")
@@ -349,7 +365,7 @@ ui <- fluidPage(
         ),
         
         # Include clarifying text
-        helpText("Note: Please, read the READ ME FIRST before doing anything"),
+        helpText(h6("Note: Please, read the READ ME FIRST before doing anything")),
         # D-score calcution/update button
         actionButton("update", "Calculate & Update"),
         # Restart app button
@@ -361,7 +377,7 @@ ui <- fluidPage(
       # Main panel 
       mainPanel(tabsetPanel(
         tabPanel(
-          h4("READ ME FIRST"),
+          h4("Read Me First"),
           # Introduction pop-up menu
           a(id = "imp_intro", h3("The D-score Shiny App"), href = "#"),
           shinyjs::hidden(div(
@@ -855,7 +871,8 @@ ui <- fluidPage(
                                  <h3> Contacts </h3>
                                  <p>
                                  This App was developed by Ottavia M. Epifania
-                                 at the University of Padova (Italy).
+                                 at the University of Padova (Italy). The source code of the app
+                                 and the raw data are available on my <a href=https://github.com/OttaviaE/DscoreApp>GitHub page</a>. 
                                  For any further information on the App functioning or
 				 for any problems regarding the App,
                                  please contact me at: otta.epifania@gmail.com

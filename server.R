@@ -343,7 +343,7 @@ server <- function(input, output, session) {
   # tell the user whether the data are ready to use
   output$data_ready <- renderUI({
     
-    loading <- ifelse(is.null(values$ready), "Waiting for data", 
+    loading <- ifelse(is.null(values$ready), ("Waiting for data"), 
                       "Data are ready!") 
     helpText(h3(loading))
   })
