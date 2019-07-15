@@ -680,8 +680,14 @@ server <- function(input, output, session) {
   shinyjs::onclick("det_getting",
                    shinyjs::toggle(id = "details_getting", anim = TRUE))
   
-  shinyjs::onclick("det_final",
-                   shinyjs::toggle(id = "details_final", anim = TRUE))
+  shinyjs::onclick("det_references",
+                   shinyjs::toggle(id = "details_references", anim = TRUE))
+  
+  shinyjs::onclick("det_contacts",
+                   shinyjs::toggle(id = "details_contacts", anim = TRUE))
+  
+  shinyjs::onclick("det_license",
+                   shinyjs::toggle(id = "details_license", anim = TRUE))
   
   shinyjs::onclick("imp_det",
                    shinyjs::toggle(id = "details_import", anim = TRUE))

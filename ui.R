@@ -1,7 +1,8 @@
 library(shiny) # load shiny package
 library(shinythemes) # load shinythemes to change the app theme
 library(shinyjs) # load shinyjs package to use jav script elements
-
+# library(data.table)
+# library(tableHTML)
 
 # Define UI for dataset viewer app ----
 ui <- fluidPage(
@@ -55,6 +56,7 @@ ui <- fluidPage(
                                   border: 1px solid black;
                                   border-collapse: collapse;
                                   padding: 8px;
+                                  text-align: center;
                                   }
                                   blockquote{
                                   font-family: \"Georgia\", Times, serif;
@@ -532,6 +534,10 @@ ui <- fluidPage(
                                 </b>correction, you can choose between
                                 all the other <em>D-score</em>s.</li>
                                 </ul>
+                                <p>
+                                 The App can be resetted by clicking on the
+                                 <b> &#34;Reset &#38; Restart&#34;</b> button.
+                                 </p>
                                 </blockquote>"
             ),
             # D-scores table
@@ -599,7 +605,21 @@ ui <- fluidPage(
                                  <b>Mapping A</b>.
                                  </blockquote>"
             ),
-            
+            # data.table("Dscore" = paste0("D", 1:6),
+            #            "Error inflation" = c(rep("Built-in", 2), "Error Mean + 2sd", 
+            #                                  "Error Mean + 600 ms", "Error Mean + 2sd", 
+            #                                  "Error Mean + 600 ms"),
+            #            "Lower Tail treatment" = c("No", "Yes" , "No", "No", "Yes", "Yes")) %>% 
+            #   tableHTML(rownames = FALSE,
+            #             widths = rep(250, 3),
+            #             caption = "Table 1: foo bar") %>% 
+            #   add_css_table(css = list("text-align", "center")) %>%
+            #   add_css_row(css = list(c("background-color", "color"), 
+            #              c("red", "white"), rows= 2:3)),
+            #   # add_css_header(headers = 1:3,
+            #   #                css = list(c("background-color", "color"),
+            #   #                           c("red", "white"))) %>% 
+            #   # add_css_caption(css = list("color", "purple")),
             HTML(
               " <blockquote>
                                  <ul>
@@ -687,6 +707,11 @@ ui <- fluidPage(
                                  correlation between the <em>D</em>s in the
                                  practice and test blocks (Gawronski et al., 2017). </li>
                                  </ul>
+                                 <p>
+                                  Please refer to the <a href=https://implicit.harvard.edu/implicit/demo/copyright.html>Project Implicit Website</a> for the 
+              interpretation guidelines of the <em>D-score</em>s effect size
+              reported in the graphs.
+              </p>
                                  </blockquote>"
             )
           )),
@@ -817,29 +842,15 @@ ui <- fluidPage(
           )),
           # Final remarks, references, Contact, and License pop-up menu
           a(
-            id = "det_final",
-            h3("Final remarks, References, Contacts, and License"),
+            id = "det_references",
+            h3("References"),
             href = "#"
           ),
           shinyjs::hidden(div(
-            id = "details_final",
+            id = "details_references",
             HTML(
               "
-              <blockquote>
-              <p>
-              Please refer to the <a href=https://implicit.harvard.edu/implicit/demo/copyright.html>Project Implicit Website</a> for the 
-              interpretation guidelines of the <em>D-score</em>s effect size
-              reported in the graphs.
-              </p>
-              </blockquote>
-              
-
-                                 <blockquote>
-                                 <p>
-                                 The App can be resetted by clicking on the
-                                 <b> &#34;Reset &#38; Restart&#34;</b> button.
-                                 </p>
-                                 <h4><b>References</b></h4>
+                                 
                                  <p>
                                  Gawronski, B., Morrison, M., Phills, C. E., & Galdi, S. (2017). Temporal stability of 
                                  implicit and explicit measures:
@@ -864,12 +875,23 @@ ui <- fluidPage(
                                  Nosek, B. A., Banaji, M. R., &#38; Greenwald,
                                  A. G. (2002). Harvesting implicit group
                                  attitudes and beliefs from a demonstration web
-                                 site.<em>Group Dynamics&#58; Theory, Research,
+                                 site.<em> Group Dynamics&#58; Theory, Research,
                                  and Practice, 6</em>(1), 101-115.
                                  doi: 10.1037/1089-2699.6.1.101
                                  </p>
-                                 <h3> Contacts </h3>
-                                 <p>
+                                 "
+            )
+          )),
+          a(
+            id = "det_contacts",
+            h3("Contacts"),
+            href = "#"
+          ),
+          shinyjs::hidden(div(
+            id = "details_contacts",
+            HTML(
+              "
+                        <blockquote>
                                  This App was developed by Ottavia M. Epifania
                                  at the University of Padova (Italy). The source code of the app
                                  and the raw data are available on my <a href=https://github.com/OttaviaE/DscoreApp>GitHub page</a>. 
@@ -877,12 +899,24 @@ ui <- fluidPage(
 				 for any problems regarding the App,
                                  please contact me at: otta.epifania@gmail.com
                                  or marinaottavia.epifania@phd.unipd.it
-                                 </p>
-                                 <h3> License </h3>
-                                 <p>
-                                 This app is a free software, and you can redistribute it and or modify it under the terms of the  <a href=https://opensource.org/licenses/MIT>MIT license</a>.
-                                 <p>
-                                 </blockquote>"
+                                 </blockquote>         
+                                 "
+            )
+          )),
+          a(
+            id = "det_license",
+            h3("License"),
+            href = "#"
+          ),
+          shinyjs::hidden(div(
+            id = "details_license",
+            HTML(
+              "
+                        <blockquote>
+                                 This app is a free software, and you can redistribute it and or modify it under the terms of the  
+                                 <a href=https://opensource.org/licenses/MIT>MIT license</a>.
+                                 </blockquote>         
+                                 "
             )
           ))
         ),
