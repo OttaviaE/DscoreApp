@@ -88,7 +88,6 @@ ui <- fluidPage(
   div(
     id = "Dapp", # app ID
     headerPanel("DscoreApp"), # app Title
-    
     sidebarLayout(
       # Sidebar panel for inputs 
       sidebarPanel(
