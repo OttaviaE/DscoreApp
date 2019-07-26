@@ -19,6 +19,8 @@ ui <- fluidPage(
                                   font-weight: 500;
                                   line-height: 1.1;
                                   color: #93baff;
+                                      position: relative;
+                                     background : url(logo6.png) no-repeat 0 0;
                                   }
                                   h3 {
                                   font-family: \"Georgia\", Times, serif;
