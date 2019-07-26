@@ -4,7 +4,7 @@ title: 'DscoreApp: An user-friendly web application for computing the Implicit A
 authors:
 - affiliation: '1'
   name: Ottavia M. Epifania
-  orcid: 0000-0001-8552-568
+  orcid: 0000-0001-8552-568X
 - affiliation: '1'
   name: Pasquale Anselmi
   orcid:  0000-0003-2982-7178
