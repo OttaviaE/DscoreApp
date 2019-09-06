@@ -10,7 +10,7 @@ authors:
   orcid:  0000-0003-2982-7178
 - affiliation: '1'
   name: Egidio Robusto
-date: "26 luglio, 2019"
+date: "06 settembre, 2019"
 output: 
   html_document:
        keep_md: true
@@ -31,7 +31,7 @@ affiliations:
 
 # Summary
 
-The Implicit Association Test [IAT; @Greenwald:1998] is one of the most commonly used measures for the implicit assessment of attitudes and preferences. It is based on the speed and accuracy with which stimuli representing four different categories (e.g., flowers and insects, positive and negative words in a Flowers-Insects IAT) are sorted in their belonging category by means of two response keys. The IAT is usually composed of seven blocks, three of which are pure practice blocks where either flowers-insects images or positive-negative words are sorted in their categories. The remaining four blocks are associative practice and associative test blocks. These blocks forms the two contrasting associative conditions under which the categorization task takes place. In one associative condition (i.e., practice blocks Mapping A and test blocks Mapping A), flowers images and positive words share the same response key, while insects images and negative words share the other response key. In the contrasting associative condition (i.e., practice blocks Mapping B and test blocks Mapping B), insects images and positive words share the same response key, while flowers images and negative words share the opposite response key. 
+The Implicit Association Test [IAT; @Greenwald:1998] is one of the most commonly used measures in psychology for the implicit assessment of attitudes and preferences. It is based on the speed and accuracy with which stimuli representing four different categories (e.g., flowers and insects, positive and negative words in a Flowers-Insects IAT) are sorted in their belonging category by means of two response keys. The IAT is usually composed of seven blocks, three of which are pure practice blocks where either flowers-insects images or positive-negative words are sorted in their categories. The remaining four blocks are associative practice and associative test blocks. These blocks forms the two contrasting associative conditions under which the categorization task takes place. In one associative condition (i.e., practice blocks Mapping A and test blocks Mapping A), flowers images and positive words share the same response key, while insects images and negative words share the other response key. In the contrasting associative condition (i.e., practice blocks Mapping B and test blocks Mapping B), insects images and positive words share the same response key, while flowers images and negative words share the opposite response key. 
 
 The categorization task is supposed to be easier (i.e., faster response times and higher accuracy) in the associative condition consistent with respondents' automatically activated associations. The *IAT effect* results from the difference in respondents' performance between the two contrasting conditions, and the *D-score* [@Greenwald2003] is the most common measure used for interpreting the strength and direction of this effect. Despite different options are available for the *D-score* computation (Table 1), the core procedure is the same. The difference between the *D-score*s only concerns the treatment for the error responses and the treatment for the fast responses. 
 
@@ -63,7 +63,7 @@ An open source and user-friendly tool for the computation of the *D-score* was h
 
 # DscoreApp
 
-[DscoreApp](http://fisppa.psy.unipd.it/DscoreApp/) was developed with the aim of providing an Open Source tool able to make the *D-score* computation easier for researchers who commonly employ the IAT but have little or no programming experience. Furthermore, by providing an immediate representation of the results, it allows for an immediate glimpse of the IAT results. The source code of DscoreApp can be retrieved on [GitHub](https://github.com/OttaviaE/DscoreApp).
+[DscoreApp](http://fisppa.psy.unipd.it/DscoreApp/) (v0.1) was developed with the aim of providing an Open Source tool able to make the *D-score* computation easier for researchers who commonly employ the IAT but have little or no programming experience. Furthermore, by providing an immediate representation of the results, it allows for an immediate glimpse of the IAT results. The source code of DscoreApp can be retrieved on [GitHub](https://github.com/OttaviaE/DscoreApp).
 
 The app is organized in different panels ("Input", "Read Me First", "D-score results", and "Descriptive statistics"), and it comes with a toy data set that can be used to familiarize with its functions. The setting options and functions in the "Input" panel and the menu in the "Read Me First" panel are interactive, so that users can easily access the information on DscoreApp functions and amenities. 
 
@@ -74,11 +74,17 @@ The "Input panel" is the panel for uploading either the toy data set (`Race IAT 
 
 The "D-score results" panel (depicted in Figure 1) is populated once the **Compute & Update** button is clicked for the first time. Both descriptive statistics of the results and their graphical representation are available at the same time, and they change interactively as users change the configuration in the "Input panel". The `Summary` box reports the descriptive statistics of the $D_{pratice}$, $D_{test}$, and the actual $D$-$score$. The `Trials > 10,000ms` box reports the number of trials discarded because of a slow latency (if any), while the `Trials < 400ms` box reports the trials discarded because of fast response times, only if a *D-score* algorithm including the fast trials deletion strategy was chosen. The `Practice-Test reliability` box contains the IAT reliability computed as the correlation between associative practice and associative test blocks across participants [@gaw2017].
 
-![D-score results panel.](results.png)
+<div class="figure">
+<img src="results.png" alt="D-score results panel." width="98%" />
+<p class="caption">D-score results panel.</p>
+</div>
 
-DscoreApp provides users with different options for the graphical representation of the results (depicted in Figure 2), at both the individual and sample level. Graphical representation is a convenient way to identify extreme scores or particular response pattern. Since it might be difficult to link a particular point (or points area) in the graph with the corresponding participants' IDs in the data set, DscoreApp comes with two handy tools designed to access the respondents' IDs from the graph. By clicking on a point in the graph, the ID of the participant corresponding to the selected point, and his/her *D-score*, appear in the `Point` box. By highlighting an area of the graph, the IDs of participants' included in the area, along with their *D-score*s, appear in the `Area` box.
+DscoreApp provides users with different options for the graphical representation of the results (depicted in Figure 2), at both the individual and sample level. Graphical representation is a convenient way to identify extreme scores or particular response pattern. Since it might be difficult to link a particular point (or points area) in the graph with the corresponding participants' IDs in the data set, DscoreApp comes with two handy tools designed to access the respondents' IDs from the graph. By clicking on a point in the graph, the ID of the participant corresponding to the selected point, and his/her *D-score*, appear in the `Point` box. By highlighting an area of the graph, the IDs of participants' included in the area, along with their *D-score*s, appear in the `Area` box.  
 
-![Results graphical representations.](graphs.png)
+<div class="figure" style="text-align: center">
+<img src="graphs.png" alt="Results graphical representations." width="98%" />
+<p class="caption">Results graphical representations.</p>
+</div>
 
 Both the graphical representations and the results of the computation are downloadable. The graphical representations are saved in a PDF format. The downloadable file of the results is saved as a CSV file with comma set as separator. Further details on the variables and information contained in this file are available in the "Read Me First" panel of the app.
 
