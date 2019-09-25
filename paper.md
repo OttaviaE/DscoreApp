@@ -74,17 +74,11 @@ The "Input panel" is the panel for uploading either the toy data set (`Race IAT 
 
 The "D-score results" panel (depicted in Figure 1) is populated once the **Compute & Update** button is clicked for the first time. Both descriptive statistics of the results and their graphical representation are available at the same time, and they change interactively as users change the configuration in the "Input panel". The `Summary` box reports the descriptive statistics of the $D_{pratice}$, $D_{test}$, and the actual $D$-$score$. The `Trials > 10,000ms` box reports the number of trials discarded because of a slow latency (if any), while the `Trials < 400ms` box reports the trials discarded because of fast response times, only if a *D-score* algorithm including the fast trials deletion strategy was chosen. The `Practice-Test reliability` box contains the IAT reliability computed as the correlation between associative practice and associative test blocks across participants [@gaw2017].
 
-<div class="figure">
-<img src="results.png" alt="D-score results panel." width="98%" />
-<p class="caption">D-score results panel.</p>
-</div>
+![D-score results panel.](results.png)
 
 DscoreApp provides users with different options for the graphical representation of the results (depicted in Figure 2), at both the individual and sample level. Graphical representation is a convenient way to identify extreme scores or particular response pattern. Since it might be difficult to link a particular point (or points area) in the graph with the corresponding participants' IDs in the data set, DscoreApp comes with two handy tools designed to access the respondents' IDs from the graph. By clicking on a point in the graph, the ID of the participant corresponding to the selected point, and his/her *D-score*, appear in the `Point` box. By highlighting an area of the graph, the IDs of participants' included in the area, along with their *D-score*s, appear in the `Area` box.  
 
-<div class="figure" style="text-align: center">
-<img src="graphs.png" alt="Results graphical representations." width="98%" />
-<p class="caption">Results graphical representations.</p>
-</div>
+![Results graphical representations.](graphs.png)
 
 Both the graphical representations and the results of the computation are downloadable. The graphical representations are saved in a PDF format. The downloadable file of the results is saved as a CSV file with comma set as separator. Further details on the variables and information contained in this file are available in the "Read Me First" panel of the app.
 
