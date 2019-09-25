@@ -11,3 +11,6 @@ If you want to use the app locally on your computer, you have to set the
 directory on LINE 23 in `server.R` to your working directory (if you want to use
 the example dataset). 
 
+
+
+
