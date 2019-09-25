@@ -117,7 +117,7 @@ ui <- fluidPage(
               "compiled according to instructions.")
             )
           )),
-          # Users' data impot button
+          # Users' data import button
           fileInput(
             'datafile',
             '',
@@ -861,8 +861,7 @@ ui <- fluidPage(
                                  <p>
                                  Greenwald, A. G., McGhee, D. E., & Schwartz, J. L. K. (1998). Measuring Individual Differences in 
                                  Implicit Cognition: The Implicit Association Test. <em>Journal of Personality and Soclal Psychology, 
-                                 74</em>(6), 
-                                 1464–1480. doi: 10.1037/0022-3514.74.6.1464
+                                 74</em>(6). doi: 10.1037/0022-3514.74.6.1464
                                  </p>
                                  <p>
                                  Greenwald, A. G., Nosek, B. A., &#38; Banaji,

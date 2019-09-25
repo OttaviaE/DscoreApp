@@ -18,7 +18,8 @@ server <- function(input, output, session) {
   dataentry <- observe({
     if (input$checkbox == T){
       datasetInput <- reactive({
-        # define the wd for the example dataset AND HAS TO BE CHANGED ACCORDINGLY
+        # define the wd for the example dataset 
+        # AND HAS TO BE CHANGED ACCORDINGLY
         dataset <- read.csv("~/GitHub/DscoreApp/raceAPP.csv")
       })
     } else {
