@@ -10,7 +10,7 @@ authors:
   orcid:  0000-0003-2982-7178
 - affiliation: '1'
   name: Egidio Robusto
-date: "25 settembre, 2019"
+date: "28 ottobre, 2019"
 output: 
   html_document:
        keep_md: true
@@ -83,5 +83,9 @@ DscoreApp provides users with different options for the graphical representation
 Both the graphical representations and the results of the computation are downloadable. The graphical representations are saved in a PDF format. The downloadable file of the results is saved as a CSV file with comma set as separator. Further details on the variables and information contained in this file are available in the "Read Me First" panel of the app.
 
 DscoreApp is constantly updated by the Authors, and new functions that are not present in this paper might be available in the future (e.g., other IAT reliability indexes).
+
+## Acknowledgments
+
+O.M.E. wanted to thank Ben Keller for his suggestions and advice.  
 
 # References
