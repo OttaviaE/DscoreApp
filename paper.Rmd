@@ -84,4 +84,8 @@ Both the graphical representations and the results of the computation are downlo
 
 DscoreApp is constantly updated by the Authors, and new functions that are not present in this paper might be available in the future (e.g., other IAT reliability indexes).
 
+## Acknowledgments
+
+O.M.E. wanted to thank Ben Keller for his suggestions and advice.  
+
 # References
