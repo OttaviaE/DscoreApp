@@ -56,7 +56,7 @@ During IAT administration, respondents might be given feedback for the error res
 
 3. Compute the actual *D-score* as the mean of the $D_{practice}$ and the $D_{test}$.
 
-Several options are available for computing the *D-score*, for example, SPSS commands, Inquisit scripts, and `R` packages. These options all have some drawbacks, such as the need for a license (SPSS commands and Inquisit scripts), the need for programming skills (`R` packages), or the need for a specific administration procedure to be used (Inquisit scripts) 
+Several options are available for computing the *D-score*, for example, SPSS syntaxes, Inquisit scripts, and `R` packages. These options all have some drawbacks, such as the need for a license (SPSS syntaxes and Inquisit scripts), the need for programming skills (`R` packages), or the need for a specific administration procedure to be used (Inquisit scripts) 
 
 
 An open source and user-friendly tool for the computation of the *D-score* was hence created in `R` [@rsoft] using the shiny [@shiny] and shinijs [@shinyjs] packages. This tool provides an immediate representation of the results, combining graphical representations with descriptive statistics. 
