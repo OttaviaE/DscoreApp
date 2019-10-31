@@ -32,6 +32,8 @@ Once data have been updated, the drop-down menus for the IAT blocks labels are p
 
 Once the data are ready, any *D-score* can be chosen from the drop-down menu, according to users' preferences. Different options for both the respondents' deletion and the graphical display of the results are available as well. The appearance of the app once the results are displyed and examples of the available graphical options are illustrated on the pdf of the paper in the app [GitHub repository](https://github.com/OttaviaE/DscoreApp).
 
+For further information on the app functioning, please refer to the related paper retrivable at [![DOI](https://joss.theoj.org/papers/10.21105/joss.01764/status.svg)](https://doi.org/10.21105/joss.01764).
+
 
 # Contributing to DscoreApp
 
