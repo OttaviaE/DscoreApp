@@ -42,7 +42,21 @@ server <- function(input, output, session) {
     observe({
       values$dataset <- data.frame(datasetInput())
     })
-    # store the blcok labels that are in the dataframe
+    observe({
+      # Recognize whether the dataframe is coming from the implicitMeasures pkg
+      recognize <- function(data){
+        if ((any(names(data) == "block_original") == TRUE) & 
+            (any(names(data) == "Participant") == FALSE)) {
+          data$block <- data$block_original
+        } else {
+          data <- data 
+        }
+        return(data)
+      }
+      values$dataset <- recognize(values$dataset)
+    })
+  
+    # store the block labels that are in the dataframe
     observe({
       values$dataset$block_label <- isolate(values$dataset$block)
     })
@@ -667,7 +681,7 @@ server <- function(input, output, session) {
                    shinyjs::toggle(id = "details_intro", anim = TRUE))
   
   shinyjs::onclick("det_works",
-                   shinyjs::toggle(id = "details_works", anim = TRUE))
+                   shinyjs::toggle(id = "details_works", anim = TRUE, animType = "fade"))
   
   shinyjs::onclick("det_descriptive",
                    shinyjs::toggle(id = "details_descriptive", anim = TRUE))
