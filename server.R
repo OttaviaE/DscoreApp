@@ -1,14 +1,17 @@
 server <- function(input, output, session) {
-  # toggle state for the prepare data button (become active only when either a dataset or the toy dataset are uploaded)
+  # toggle state for the prepare data button (become active only when either a 
+  # dataset or the toy dataset are uploaded)
   observe({
     shinyjs::toggleState("load", 
                          !is.null(input$datafile) | input$checkbox == T)
   })
-  # toggle state for the update button (become active only when a D-score is selected)
+  # toggle state for the update button (become active only when a D-score 
+  # is selected)
   observe({
     shinyjs::toggleState("update", input$sel_d != 0)
   })
-  # toggle state for the Download button (become active only when the update buttton has been clicked at least once)
+  # toggle state for the Download button (become active only when the update 
+  # buttton has been clicked at least once)
   observe({
     shinyjs::toggleState("downloadData", input$update > 0)
   })
@@ -104,10 +107,12 @@ server <- function(input, output, session) {
     {
       # check whether there are more blocks labels than expected 
       if (length(unique(values$dataset$block_label)) > 4){
-        alert <- "There are more blocks than expected. Remove the extra blocks and restart the app." 
+        alert <- "There are more blocks than expected. Remove the extra blocks and 
+        restart the app." 
         values$alert <- "restart" # create and save an alert
       }
-      # if the number of blocks labels is correct, check whether users tried to select the same label for two blocks
+      # if the number of blocks labels is correct, check whether users tried to 
+      # select the same label for two blocks
       # if they did, an alert is created and saved
       else if(input$mapA_practice == input$mapA_test){
         alert <- "check your labels and restart the app!"
@@ -144,7 +149,8 @@ server <- function(input, output, session) {
   newentry <- observeEvent(
     input$load,
     {
-      # rename blocks labels in MappingA and MappingB to create the IAT conditions variable
+      # rename blocks labels in MappingA and MappingB to create the IAT 
+      # conditions variable
       values$dataset$Condition <- as.character(values$dataset$block)
       values$dataset$Condition <- with(values$dataset,
                                        ifelse(block == input$mapA_practice |
@@ -204,18 +210,81 @@ server <- function(input, output, session) {
                                     paste(block_pool, Condition, 
                                           sep = "_"))
       
-      # both data with and without built in have the same column 'latency' containing the RTs
-      # in the built-in correction case, the latency has to be corrected with the inflation for the responses beforehand
+      # both data with and without built in have the same column 'latency' 
+      # containing the RTs  in the built-in correction case, the latency has 
+      # to be corrected with the inflation for the responses beforehand
       # create a variable identifying slow trials ( > 10,000 ms)
       values$dataset$slow <- ifelse(values$dataset$latency > 10000, 
                                     "no", "yes")
-      # create a variable identifying fast responses to be eliminated according to the D-score selected (< 400 ms)       
+      # create a variable identifying fast responses to be eliminated according 
+      # to the D-score selected (< 400 ms)       
       values$dataset$fast400 <- with(values$dataset,
                                      ifelse(latency < 400, 
                                             "no", "yes"))
-      # create a variable identifying fast response (< 300 ms) for the elimination of the fast participants
+      if (any(dataset$fast400 == "no")){
+        # number of fast responses (< 400) for each participant
+        values$num_fast400 <- data.frame(with(values$dataset,
+                                              table(fast400, participant)))
+        values$num_fast400 <- values$num_fast400[values$num_fast400$fast400 %in% 
+                                                   "no", c("participant", "Freq")]
+        colnames(values$num_fast400) <- c("participant", "num.400")
+      } else {
+        values$num_fast400 <- data.frame(
+          participant = unique(values$dataset$participant), 
+                                  num.400 = 0)
+      }
+      
+      # create a variable identifying fast response (< 300 ms) for the 
+      # elimination of the fast participants
       values$dataset$fast300 <- ifelse(values$dataset$latency < 300, 
                                        "no", "yes")
+      
+      # number of fast reasponses (< 300) for each participant
+      if (any(values$dataset$fast300 == "no")){
+        values$num_fast300 <- data.frame(with(values$dataset,
+                                       table(fast300, participant)))
+        values$num_fast300 <- values$num_fast300[values$num_fast300$fast300 %in% 
+                                     "no", c("participant", "Freq")]
+        colnames(values$num_fast300) <- c("participant", "num.300")
+        
+        # compute the percentage of fast responses
+        # needed for deciding whether to eliminate participants or not
+        values$dataset$participant <- as.character(values$dataset$participant)
+        # pnumber of trials < 300 ms for each participant
+        values$sbj_300 <- data.frame(with(values$dataset, 
+                                   table(latency < 300, participant)))
+        # select only the lines that evaluated in TRUE
+        values$sbj_300 <- values$sbj_300[values$sbj_300$Var1 %in% "TRUE", c(2,3)]
+        values$sbj_300$participant <- as.character(values$sbj_300$participant)
+        # create the decision variable for the fast responses participants 
+        # deletion (if it evaluates in TRUE --> "out) 
+        for(i in 1:length(unique(values$dataset$participant))){
+          values$sbj_300$out_fast <- ifelse(values$sbj_300$Freq > 
+                                       (table(values$dataset$participant)[i])*0.10, 
+                                     "out", "keep")
+          
+        }
+        colnames(values$sbj_300)[2] <- "n_trial300"
+        values$sbj_300$participant <- as.character(values$sbj_300$participant)
+        # merge dataset to sbj_300 to create the filter variable
+        values$dataset <- merge(values$dataset, values$sbj_300, 
+                         by = "participant")
+        
+        # select only the lines that evaluated in TRUE
+        values$sbj_300 <- values$sbj_300[values$sbj_300$Var1 %in% "TRUE", c(2,3)]
+        values$sbj_300$participant <- as.character(values$sbj_300$participant)
+
+      } else {
+        values$dataset$n_trial300 <- 0
+         values$sbj_300 <- data.frame(participant = unique(values$dataset$participant), 
+                               n_trial300 = 0, 
+                               out_fast = "keep")
+         values$num_fast300 <- data.frame(participant = unique(values$dataset$participant), 
+                                      num.300 = 0)
+         values$num_fast300 <- data.frame(participant = unique(values$dataset$participant), 
+                                   num.300 = 0)
+      }
+      
       
       # number of slow responses for each participant
       values$num_slow <- data.frame(with(values$dataset, 
@@ -228,46 +297,20 @@ server <- function(input, output, session) {
       # merge the number of slow trials with the number of trails
       values$num_slow <- merge(values$num_slow, values$num_trial, 
                                by = "participant")
-      # compute the difference between the number of trials actually peformed and the number of slow trials
+      # compute the difference between the number of trials actually peformed 
+      # and the number of slow trials
       values$num_slow$slow10000 <- with(values$num_slow, 
                                         n_trial - Freq)
       values$num_slow <- values$num_slow[, c("participant", "n_trial",
                                              "slow10000")]
-      # number of fast reasponses (< 300) for each participant
-      values$num_fast300 <- data.frame(with(values$dataset,
-                                            table(fast300, participant)))
-      values$num_fast300 <- values$num_fast300[values$num_fast300$fast300 %in% 
-                                                 "no", c("participant", "Freq")]
-      colnames(values$num_fast300) <- c("participant", "num.300")
+
       
-      # number of fast responses (< 400) for each participant
-      values$num_fast400 <- data.frame(with(values$dataset,
-                                            table(fast400, participant)))
-      values$num_fast400 <- values$num_fast400[values$num_fast400$fast400 %in% 
-                                                 "no", c("participant", "Freq")]
-      colnames(values$num_fast400) <- c("participant", "num.400")
+
       
       # compute the percentage of fast responses
       # needed for deciding whether to eliminate participants or not
       values$dataset$participant <- as.character(values$dataset$participant)
-      # pnumber of trials < 300 ms for each participant
-      values$sbj_300 <- data.frame(with(values$dataset, 
-                                        table(latency < 300, participant)))
-      # select only the lines that evaluated in TRUE
-      values$sbj_300 <- values$sbj_300[values$sbj_300$Var1 %in% "TRUE", c(2,3)]
-      values$sbj_300$participant <- as.character(values$sbj_300$participant)
-      # create the decision variable for the fast responses participants deletion (if it evaluates in TRUE --> "out) 
-      for(i in 1:length(unique(values$dataset$participant))){
-        values$sbj_300$out_fast <- ifelse(values$sbj_300$Freq > 
-                                            (table(values$dataset$participant)[i])*0.10, 
-                                          "out", "keep")
-        
-      }
-      colnames(values$sbj_300)[2] <- "n_trial300"
-      values$sbj_300$participant <- as.character(values$sbj_300$participant)
-      # merge dataset to values$sbj_300 to create the filter variable
-      values$dataset <- merge(values$dataset, values$sbj_300, 
-                              by = "participant")
+
       # create variable for the output of total number of slow responses
       values$slow <- values$dataset[values$dataset$slow %in% "no", ]
       # create a varible for telling whether data are ready
@@ -287,7 +330,8 @@ server <- function(input, output, session) {
       # calculate the proportion of error responses (error_cond)
       values$correct_response$error_cond <- with(values$correct_response,
                                                  1 - prop_correct_cond)
-      # merge original dataframe with the proportion of error responses to create the filter variable
+      # merge original dataframe with the proportion of error responses to 
+      # create the filter variable
       values$dataset <- merge(values$dataset, values$correct_response,
                               by = c("participant", "Condition"))
       # compute proportion of correct responses for each participant in each block
@@ -302,7 +346,8 @@ server <- function(input, output, session) {
                                             idvar = "participant", 
                                             timevar = "block",
                                             direction = "wide")
-      # compute proportion of correct responses for each participant in each block_pool (practice vs test)
+      # compute proportion of correct responses for each participant in each 
+      # block_pool (practice vs test)
       values$accuracy_block_pool <- with(values$dataset,
                                          aggregate(correct, 
                                                    by = list(participant, 
@@ -324,7 +369,8 @@ server <- function(input, output, session) {
       values$accuracy <- merge(values$accuracy_block_wide,
                                values$accuracy_block_pool_wide, 
                                by = "participant")
-      # merge overall accuracy with correct_response_wide (proportion of correct responses in each condition)
+      # merge overall accuracy with correct_response_wide (proportion of 
+      # correct responses in each condition)
       values$accuracy <- merge(values$accuracy, 
                                values$correct_response_wide, 
                                by = "participant")
@@ -346,7 +392,8 @@ server <- function(input, output, session) {
                                             FUN = mean))
       
       colnames(values$subject_mean) <- c("participant", "mean.tot")
-      # merge the time dataset (containing the information on fast and slow responses) with the overall average response time
+      # merge the time dataset (containing the information on fast and slow 
+      # responses) with the overall average response time
       values$time <- merge(values$time, values$subject_mean,
                            by = "participant")
       values$time <- merge(values$time, values$accuracy, 
@@ -364,23 +411,28 @@ server <- function(input, output, session) {
   })
   
   # prevent buttons ####
-  # toggle state for the update button (become active only when a D-score is selected and there's something in the ready object)
+  # toggle state for the update button (become active only when a D-score is 
+  # selected and there's something in the ready object)
   observe({
     shinyjs::toggleState("update", input$sel_d != 0 && !(is.null(values$ready)))
   })
-  # toggle state for the Select D drop-down menu (become active only when there's something in the ready object)
+  # toggle state for the Select D drop-down menu (become active only when 
+  # there's something in the ready object)
   observe({
     shinyjs::toggleState("sel_d", !(is.null(values$ready)))
   })
-  # toggle state for the Accuracy deletion option (become active only when a D-score is selected)
+  # toggle state for the Accuracy deletion option (become active only when a 
+  # D-score is selected)
   observe({
     shinyjs::toggleState("accuracy_del", input$sel_d != 0 )
   })
-  # toggle state for the Accuracy deletion percentage option (become active only when a D-score is selected
+  # toggle state for the Accuracy deletion percentage option (become active 
+  # only when a D-score is selected
   observe({
     shinyjs::toggleState("accuracy_del", input$sel_d != 0 )
   })
-  # toggle state for the Fast participants deletion option (become active only when a D-score is selected
+  # toggle state for the Fast participants deletion option (become active only 
+  # when a D-score is selected
   observe({
     shinyjs::toggleState("sbjFast_del", input$sel_d != 0 )
   })
@@ -389,7 +441,8 @@ server <- function(input, output, session) {
   cleandata <- observeEvent(
     input$update, 
     {
-      # Compute the D-score according to the specific algorithm selected by the users
+      # Compute the D-score according to the specific algorithm selected by the 
+      # users
       if(input$sel_d == 1){
         # d1: built in, no lower tail treatment
         values$out_400 <- "Not expected for this D"
@@ -474,7 +527,8 @@ server <- function(input, output, session) {
         # Compute the mean on the correct responses for the error correction
         values$correct_time_d5 <- values$d5[which(values$d5$correct == 1), ]
         values$mean_correct_d5 <- with(values$correct_time_d5,
-                                       aggregate(latency, by = list(blockR, participant),
+                                       aggregate(latency, by = list(blockR, 
+                                                                    participant),
                                                  FUN = mean))
         colnames(values$mean_correct_d5) <- c("blockR", "participant", "mean")
         # merge original data to correct mean
@@ -482,7 +536,8 @@ server <- function(input, output, session) {
                            by = c("participant", "blockR"))
         # Compute the sd on the correct responses for the error correction
         values$sd_correct_d5 <- with(values$correct_time_d5,
-                                     aggregate(latency, by = list(blockR, participant),
+                                     aggregate(latency, by = list(blockR, 
+                                                                  participant),
                                                FUN = sd))
         colnames(values$sd_correct_d5) <- c("blockR", "participant", "sd_block")
         # merge origianl data to sd correct
@@ -504,7 +559,8 @@ server <- function(input, output, session) {
         # Compute the mean on the correct responses for the error correction
         values$correct_time_d6 <- values$d6[which(values$d6$correct == 1), ]
         values$mean_correct_d6 <- with(values$correct_time_d6,
-                                       aggregate(latency, by = list(blockR, participant),
+                                       aggregate(latency, by = list(blockR, 
+                                                                    participant),
                                                  FUN = mean))
         colnames(values$mean_correct_d6) <- c("blockR", "participant", "mean")
         # merge original data with correct mean
@@ -532,11 +588,14 @@ server <- function(input, output, session) {
                                         by = list(participant, blockR),
                                         FUN = mean))
       colnames(values$sbj_mean) <- c("participant", "blockR", "mean")
-      # create a variable indicating just whether the block was a practice or a test block, so that this dataframe can be merged with the datfarme containing the variance
+      # create a variable indicating just whether the block was a practice or 
+      # a test block, so that this dataframe can be merged with the datframe 
+      # containing the variance
       values$sbj_mean$block_pool <- values$sbj_mean$block
       values$sbj_mean$block_pool  <- gsub(".MappingA", '', 
                                           values$sbj_mean$block_pool)
-      values$sbj_mean$block_pool  <- gsub(".MappingB", '', values$sbj_mean$block_pool )
+      values$sbj_mean$block_pool  <- gsub(".MappingB", '', 
+                                          values$sbj_mean$block_pool )
       values$sbj_data <- merge(values$variance, 
                                values$sbj_mean, 
                                by = c("participant","block_pool"))
@@ -566,11 +625,13 @@ server <- function(input, output, session) {
                                           "variance_test", 
                                           "mean_test_MappingB", 
                                           "mean_practice_MappingB")
-      # compute the difference in the average response time for the practice bloks of the two mappings
+      # compute the difference in the average response time for the practice 
+      # bloks of the two mappings
       values$sbj_data_wide$diff_practice <- with(values$sbj_data_wide,
                                                  mean_practice_MappingB - 
                                                    mean_practice_MappingA)
-      # compute the difference in the average response time for the tests bloks of the two mappings
+      # compute the difference in the average response time for the tests bloks 
+      # of the two mappings
       values$sbj_data_wide$diff_test <- with(values$sbj_data_wide,
                                              mean_test_MappingB - 
                                                mean_test_MappingA)
@@ -588,13 +649,16 @@ server <- function(input, output, session) {
       # select only useful columns
       values$dframe <- values$sbj_data_wide[, c("participant", "d_practice", 
                                                 "d_test", "dscore")]
-      # merge the dataset containing the D-score with the dataset containing the details on participants performance
+      # merge the dataset containing the D-score with the dataset containing the 
+      # details on participants performance
       values$descript_data <- merge(values$time, values$dframe,
                                     by = "participant")
-      # merge the descript_data dataset with the dataset containing the order of presentation of the blocks
+      # merge the descript_data dataset with the dataset containing the order 
+      # of presentation of the blocks
       values$descript_data <- merge(values$descript_data, 
                                     values$condition_order)
-      # specificy which D-score was compute by pasting the number of the D-score to the d_practice, d_test and d_score variables
+      # specificy which D-score was compute by pasting the number of the 
+      # D-score to the d_practice, d_test and d_score variables
       colnames(values$descript_data)[16:18] <- paste(colnames(
         values$descript_data)[16:18], input$sel_d, sep = "_")
       # compute the accuracy based on the percentage enetered by the users
@@ -602,14 +666,18 @@ server <- function(input, output, session) {
                                       ifelse(values$dataset$error_cond > 
                                                input$perc_error/100,
                                              "out", "keep"))
-      # create a dataframe containing the IDs of the partciipants to eliminate based on the accuracy deletion
+      # create a dataframe containing the IDs of the partciipants to eliminate 
+      # based on the accuracy deletion
       values$sbj_accuracy <- values$dataset[values$dataset$test_acc %in% "out", ]
-      # create a dataframe containing the IDs of the participants to eliminate based on fast responses
+      # create a dataframe containing the IDs of the participants to eliminate 
+      # based on fast responses
       values$sbj_time <- values$dataset[values$dataset$out_fast %in% "out", ]
-      # merge together partcipants filter variables for both accuracy and time deletion
+      # merge together partcipants filter variables for both accuracy and 
+      # time deletion
       values$out_participants <- c(values$sbj_accuracy$participant, 
                                    values$sbj_time$participant)
-      # create teh condition for displaying the participants according to users' display configurations
+      # create teh condition for displaying the participants according to 
+      # users' display configurations
       if(input$accuracy_del == 1 & input$sbjFast_del == 1){ # Display all participants
         # save the dataset with the results in a temporary dataframe values$display
         values$display <- values$dframe
@@ -620,7 +688,8 @@ server <- function(input, output, session) {
         values$desc_stats <- values$data[values$data$participant %in% 
                                            values$display$participant, ]
         
-      } else if(input$accuracy_del == 2 & input$sbjFast_del == 1){ # Accuracy deletion only
+      } else if(input$accuracy_del == 2 & input$sbjFast_del == 1){ # Accuracy 
+        # deletion only
         values$display <- values$dframe[!(values$dframe$participant) %in%
                                           values$sbj_accuracy$participant, ]
         
@@ -633,7 +702,8 @@ server <- function(input, output, session) {
                                                            "d_test")])
         values$desc_stats <- values$data[values$data$participant %in% 
                                            values$display$participant, ]
-      } else if (input$accuracy_del == 1 & input$sbjFast_del == 2){ # Fast participants deletion only
+      } else if (input$accuracy_del == 1 & input$sbjFast_del == 2){ # Fast 
+        # participants deletion only
         values$display <- values$dframe[!(values$dframe$participant) %in%
                                           values$sbj_time$participant, ]
         
@@ -647,7 +717,8 @@ server <- function(input, output, session) {
         values$desc_stats <- values$data[values$data$participant %in% 
                                            values$display$participant, ]
       } 
-      else if(input$accuracy_del == 2 & input$sbjFast_del == 2){ # Both accuracy and fast participants deletion
+      else if(input$accuracy_del == 2 & input$sbjFast_del == 2){ # Both accuracy 
+        # and fast participants deletion
         values$display <- values$dframe[!(values$dframe$participant) %in%
                                           values$out_participants, ]
         
@@ -681,7 +752,8 @@ server <- function(input, output, session) {
                    shinyjs::toggle(id = "details_intro", anim = TRUE))
   
   shinyjs::onclick("det_works",
-                   shinyjs::toggle(id = "details_works", anim = TRUE, animType = "fade"))
+                   shinyjs::toggle(id = "details_works", anim = TRUE, 
+                                   animType = "fade"))
   
   shinyjs::onclick("det_descriptive",
                    shinyjs::toggle(id = "details_descriptive", anim = TRUE))
@@ -883,11 +955,13 @@ server <- function(input, output, session) {
       if(input$point_opts == 1){
         # create the order for displaying participants
         values$type_graph <- "PointDefault"
-        start_time <- Sys.time() # it's needed for computing the waiting time for the shiny notification
+        start_time <- Sys.time() # it's needed for computing the waiting time 
+        # for the shiny notification
         dframe <- dframe[order(dframe$participant), ]
         dframe$dscore_cres <- dframe$participant
         dframe$dscore_cres <- as.factor(dframe$dscore_cres)
-        # create a variable for teh position of the labels for the effect size according to the number of participants
+        # create a variable for teh position of the labels for the effect size 
+        # according to the number of participants
         coordinates_labels <- ifelse(length(unique(dframe$participant)) < 150, 
                                      nrow(dframe)-1, 
                                      nrow(dframe)-10)
@@ -915,12 +989,14 @@ server <- function(input, output, session) {
         g_graph <- g_graph + annotate("text", x= coordinates_labels,
                                       y = -0.70, label= "strong",
                                       col = "slateblue4" )
-        stop_time <- Sys.time() # it's needed for computing the waiting time for the shiny notification
+        stop_time <- Sys.time() # it's needed for computing the waiting time 
+        # for the shiny notification
         
       } else if(input$point_opts == 2){
         # create the order for displaying participants
         values$type_graph <- "PointCrescent"
-        start_time <- Sys.time() # it's needed for computing the waiting time for the shiny notification
+        start_time <- Sys.time() # it's needed for computing the waiting time 
+        # for the shiny notification
         dframe <- dframe[order(dframe$dscore), ]
         dframe$dscore_cres <- 1:nrow(dframe)
         dframe$dscore_cres <- as.factor(dframe$dscore_cres)
@@ -951,12 +1027,14 @@ server <- function(input, output, session) {
                                       ,
                                       y = -0.70, label= "strong",
                                       col = "slateblue4" )
-        stop_time <- Sys.time() # it's needed for computing the waiting time for the shiny notification
+        stop_time <- Sys.time() # it's needed for computing the waiting time 
+        # for the shiny notification
         
       } else if(input$point_opts == 3){
         # create the order for displaying participants
         values$type_graph <- "PointDecrescent"
-        start_time <- Sys.time() # it's needed for computing the waiting time for the shiny notification
+        start_time <- Sys.time() # it's needed for computing the waiting time 
+        # for the shiny notification
         dframe <- dframe[order(dframe$dscore, decreasing = T), ]
         dframe$dscore_cres <- 1:nrow(dframe)
         dframe$dscore_cres <- as.factor(dframe$dscore_cres)
@@ -987,7 +1065,8 @@ server <- function(input, output, session) {
         g_graph <- g_graph + annotate("text", x= coordinates_labels,
                                       y = -0.70, label= "strong",
                                       col = "slateblue4" )
-        stop_time <- Sys.time() # it's needed for computing the waiting time for the shiny notification
+        stop_time <- Sys.time() # it's needed for computing the waiting time 
+        # for the shiny notification
         
       }
       
@@ -1012,10 +1091,12 @@ server <- function(input, output, session) {
     else if(input$graph == 2){
       # Histogram graph
       values$type_graph <- "Histogram"
-      start_time <- Sys.time() # it's needed for computing the waiting time for the shiny notification
+      start_time <- Sys.time() # it's needed for computing the waiting time 
+      # for the shiny notification
       g_graph <- ggplot(dframe,
                         aes(x = dscore)) +
-        geom_histogram(bins = input$num.bin, col = "royalblue",  # number of bins depends on users' configuration
+        geom_histogram(bins = input$num.bin, col = "royalblue",  # number of 
+                       # bins depends on users' configuration
                        fill = "royalblue",
                        alpha = .50)
       g_graph <- g_graph  + theme_classic()
@@ -1050,14 +1131,16 @@ server <- function(input, output, session) {
                                     y = -0.20, label= "strong",
                                     col = "slateblue4" )
       g_graph <- g_graph + xlab("D-score") + theme(axis.title.y = element_blank())
-      stop_time <- Sys.time() # it's needed for computing the waiting time for the shiny notification
+      stop_time <- Sys.time() # it's needed for computing the waiting time for 
+      # the shiny notification
       
     }
     # density ####
     else if(input$graph == 3){
       # Density graph
       values$type_graph <- "Density"
-      start_time <- Sys.time() # it's needed for computing the waiting time for the shiny notification
+      start_time <- Sys.time() # it's needed for computing the waiting time 
+      # for the shiny notification
       g_graph <- ggplot(dframe,
                         aes(x = dscore)) +
         geom_density(alpha = 0.70, fill = "seagreen" , col = "seagreen")
@@ -1093,16 +1176,19 @@ server <- function(input, output, session) {
                                     y = -0.20, label= "strong",
                                     col = "slateblue4" )
       g_graph <- g_graph + xlab("D-score") + theme(axis.title.y = element_blank())
-      stop_time <- Sys.time() # it's needed for computing the waiting time for the shiny notification
+      stop_time <- Sys.time() # it's needed for computing the waiting time for 
+      # the shiny notification
     }
     # density + histogram #####
     else if(input$graph == 4){
       # density + histogram graph
       values$type_graph <- "HistDens"
-      start_time <- Sys.time() # it's needed for computing the waiting time for the shiny notification
+      start_time <- Sys.time() # it's needed for computing the waiting time for 
+      # the shiny notification
       g_graph <- ggplot(dframe,
                         aes(x = dscore)) +
-        geom_histogram(aes(y=..density..), bins = input$num.bin1, # number of bins depends on users' configuration
+        geom_histogram(aes(y=..density..), bins = input$num.bin1, # number of 
+                       # bins depends on users' configuration
                        col = "royalblue",
                        fill = "royalblue", alpha = .50)
       g_graph <- g_graph  + theme_classic()
@@ -1140,10 +1226,12 @@ server <- function(input, output, session) {
                                     y = -0.20, label= "strong",
                                     col = "slateblue4" )
       g_graph <- g_graph + xlab("D-score") + theme(axis.title.y = element_blank())
-      stop_time <- Sys.time() # it's needed for computing the waiting time for the shiny notification
+      stop_time <- Sys.time() # it's needed for computing the waiting time for 
+      # the shiny notification
     }
     values$g_graph <- g_graph # safe the graph in the reactive object
-    sec_time <- as.numeric(stop_time - start_time) + 0.02 # compute the time needed for making each of the graph
+    sec_time <- as.numeric(stop_time - start_time) + 0.02 # compute the time 
+    # needed for making each of the graph
     # prepare the shiny notification according to the time for doing the grpah
     withProgress(message = ifelse(input$update == 1,
                                   "Computing...", "Updating..."), 
@@ -1157,7 +1245,8 @@ server <- function(input, output, session) {
     return(values$g_graph)
     
   })
-  # toggle state for the download graph button (become active only when the values$g_graph object has something inside)
+  # toggle state for the download graph button (become active only when the 
+  # values$g_graph object has something inside)
   observe({
     shinyjs::toggleState("down_plot", !(is.null(values$g_graph)))
   })
@@ -1178,7 +1267,8 @@ server <- function(input, output, session) {
     dframe <- values$display
     
     dframe <- dframe[, c("participant", "dscore")]
-    # specificy the order of participants for getting the correct point iun the dataframe
+    # specificy the order of participants for getting the correct point in 
+    # the dataframe
     if(input$point_opts == 1){
       dframe <- dframe[order(dframe$participant), ]
       dframe$dscore_cres <- dframe$participant
@@ -1222,7 +1312,8 @@ server <- function(input, output, session) {
     dframe <- values$display
     
     dframe <- dframe[, c("participant", "dscore")]
-    # specificy the order of participants for getting the correct point iun the dataframe
+    # specificy the order of participants for getting the correct point in 
+    # the dataframe
     if(input$point_opts == 1){
       dframe <- dframe[order(dframe$participant), ]
       dframe$dscore_cres <- dframe$participant
@@ -1264,7 +1355,8 @@ server <- function(input, output, session) {
     dframe <- values$display
     
     dframe <- dframe[, c("participant", "dscore")]
-    # select the minimum and the maximu of the selected area and theri corresponding points in teh dataframe
+    # select the minimum and the maximu of the selected area and their 
+    # corresponding points in teh dataframe
     dframe$new <- (dframe$dscore > input$plot1_brush$xmin &
                      dframe$dscore < input$plot1_brush$xmax)
     d_plot <- dframe[which(dframe$new == T), ]
