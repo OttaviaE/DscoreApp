@@ -221,7 +221,7 @@ server <- function(input, output, session) {
       values$dataset$fast400 <- with(values$dataset,
                                      ifelse(latency < 400, 
                                             "no", "yes"))
-      if (any(dataset$fast400 == "no")){
+      if (any(dataset$fast400 == "no")){ # check for 400 ms responses
         # number of fast responses (< 400) for each participant
         values$num_fast400 <- data.frame(with(values$dataset,
                                               table(fast400, participant)))
@@ -240,7 +240,7 @@ server <- function(input, output, session) {
                                        "no", "yes")
       
       # number of fast reasponses (< 300) for each participant
-      if (any(values$dataset$fast300 == "no")){
+      if (any(values$dataset$fast300 == "no")){ # check for 300 ms responses
         values$num_fast300 <- data.frame(with(values$dataset,
                                        table(fast300, participant)))
         values$num_fast300 <- values$num_fast300[values$num_fast300$fast300 %in% 
