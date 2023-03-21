@@ -45,6 +45,11 @@ otta.epifania@gmail.com.
 
 If you need support or you seek help, just contact me at otta.epifania@gmail.com.
 
+## Data 
+
+If you'd like to download the data for further analysis, they are available for download [here](raceAPP.csv)
+
+
 ## Acknowledgments
 
 O.M.E. wanted to thank Ben Keller for his suggestions and advice.   
